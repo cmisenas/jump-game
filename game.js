@@ -8,11 +8,11 @@
 	canvas.width = CANVAS_WIDTH;
 	canvas.height = CANVAS_HEIGHT;
 
-	//unnecessary styling stuff
+	//styling stuff
 	canvas.style.display = 'block';
 	canvas.style.margin = 'auto';
 
-	//function for clearing the screen every loop
+	//for clearing the screen every loop
 	var drawScreen = function(){
 		ctx.fillStyle = '#0099ff';
 		ctx.beginPath();
@@ -85,6 +85,7 @@
 			x = newX;
 			y = newY;
 		}
+		
 		//check if image is loaded
 		//if yes, set loaded to true otherwise, false
 		var loadImage = function(imageSrc){
@@ -101,6 +102,7 @@
 				jumpSpeed = 15;
 			}
 		}
+		
 		//once jump is initialized, move the player as if jumping and decrement jumpSpeed every jump
 		//once jumpSpeed is finally 0, set jumping to false and make the player start falling
 		var checkJump = function(platforms){
@@ -127,6 +129,7 @@
 				fallSpeed = 1;
 			}
 		}
+		
 		//check if player which is falling has finally reached the bottom of the canvas
 		//if not, continue falling faster
 		var checkFall = function(){
@@ -141,19 +144,24 @@
 				}
 			}
 		}
+		
 		//if player has reached the bottom, stop falling and initialize jump again
 		var fallStop = function(){
 			falling = false;
 			fallSpeed = 0;
 			jump();
 		}
+		
 		//keeping track of player's points
 		var getPoints = function(){
 			return points;
 		}
+		
+		//increments the player's points
 		var addPoints = function(){
 			points++;
 		}
+		
 		//move player left or right
 		var moveLeft = function(){
 			if(x > 0){
@@ -165,6 +173,7 @@
 				setPosition(x + 20, y);
 			}
 		}
+		
 		//draw the player based on the x, y position and animate the sprite
 		var draw = function(){
 			loadImage('pacman.png');
@@ -188,6 +197,7 @@
 				ctx.drawImage(image, width * xClip, 0, width, height, x, y, width, height);
 			}
 		}
+		
 		//getter functions
 		var getWidth = function(){
 			return width;
@@ -228,6 +238,7 @@
 		};
 
 	}
+	
 	//constructor for individual platforms that takes in an x, y location, type [0, 1] and width and height (for platform)
 	var Platform = function(setX, setY, type, setWidth, setHeight){
 		var firstColor = type === 1?'#AADD00':'#FF8C00';
@@ -236,6 +247,7 @@
 		var width = setWidth || 70, height = setHeight || 20;
 		var moving = Math.floor(Math.random() * 2);
 		var direction = moving?-1:1;
+		
 		//function for when the player collides with the platform
 		var onCollide = function(player){
 			player.fallStop();
@@ -243,22 +255,28 @@
 				player.jumpSpeed = 50;
 			}
 		}
+		
 		var setPosition = function(newX, newY){
 			x = newX;
 			y = newY;
 		}
+		
 		var getX = function(){
 			return x;
 		}
+		
 		var getY = function(){
 			return y;
 		}
+		
 		var getMoving = function(){
 			return moving?{moving: moving, direction: direction}:false;
 		}
+		
 		var setMoving = function(newDirection){
 			direction = newDirection;
 		}
+		
 		//drawing function for a platform
 		var draw = function(){
 			ctx.fillStyle = 'rgba(255, 255, 255, 1)';
@@ -283,6 +301,7 @@
 			draw: draw
 		}
 	}
+	
 	//constructor that initializes the group of platforms inside the game
 	var PlatformGenerator = function(){	
 		var platformQuantity = 7,
@@ -324,7 +343,7 @@
 			}
 		}
 
-		var keyUp = function(e){
+		var keyUp = function(e){//set left/right to false
 			if(e.keyCode === 39){
 				this.right = false;
 			}else if(e.keyCode === 37){
@@ -356,6 +375,7 @@
 			player.moveRight();
 		}
 	});
+	
 	window.addEventListener('keyup', function(e){
 		controls.keyUp(e);//function to check which key is up
 	});
